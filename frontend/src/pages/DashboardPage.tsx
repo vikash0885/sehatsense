@@ -81,17 +81,35 @@ export const DashboardPage: React.FC = () => {
   }
 
   if (error || !data) {
+    const isAuthError = error?.toLowerCase().includes('token') || error?.toLowerCase().includes('credential') || error?.includes('401');
+
     return (
       <div className="p-8 text-center max-w-md mx-auto bg-gradient-to-br from-[#1c1205]/95 via-[#120a02]/95 to-[#080401] rounded-3xl border border-amber-500/35 shadow-2xl">
         <AlertCircle className="w-10 h-10 text-red-400 mx-auto mb-3" />
-        <h3 className="text-lg font-bold text-white mb-1">Could not load dashboard</h3>
+        <h3 className="text-lg font-bold text-white mb-1">
+          {isAuthError ? 'Session Expired or Login Required' : 'Could not load dashboard'}
+        </h3>
         <p className="text-xs text-zinc-400 mb-4">{error}</p>
-        <button
-          onClick={fetchDashboard}
-          className="px-4 py-2 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-black font-extrabold rounded-xl text-xs transition-all cursor-pointer shadow-md shadow-amber-500/20"
-        >
-          Try Again
-        </button>
+        <div className="flex items-center justify-center gap-3">
+          {isAuthError ? (
+            <button
+              onClick={() => {
+                localStorage.removeItem('nutriai_token');
+                window.location.href = '/login';
+              }}
+              className="px-6 py-2.5 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-black font-extrabold rounded-xl text-xs transition-all cursor-pointer shadow-md shadow-amber-500/20"
+            >
+              Sign In to Continue
+            </button>
+          ) : (
+            <button
+              onClick={fetchDashboard}
+              className="px-4 py-2 bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 hover:from-amber-400 hover:to-yellow-300 text-black font-extrabold rounded-xl text-xs transition-all cursor-pointer shadow-md shadow-amber-500/20"
+            >
+              Try Again
+            </button>
+          )}
+        </div>
       </div>
     );
   }

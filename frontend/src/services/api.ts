@@ -41,6 +41,9 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      localStorage.removeItem('nutriai_token');
+    }
     let errorDetail = 'Request failed';
     try {
       const errData = await response.json();
