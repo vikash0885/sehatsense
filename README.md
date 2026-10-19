@@ -56,8 +56,6 @@ Through this project, I worked on bringing together a responsive React frontend,
 
 To run SehatSense AI locally, follow the installation and configuration steps documented below.
 
-[Keep your existing Quick Start Guide, API configuration, Docker deployment, and testing instructions here.]
-
 ---
 
 ## 📌 Project Information
